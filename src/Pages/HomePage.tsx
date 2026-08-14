@@ -1,4 +1,4 @@
-import './Header.css'
+import "../Components/Header.css"
 import './HomePage.css'
 
 export const HomePage = () =>
