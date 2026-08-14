@@ -5,6 +5,9 @@ export const HomePage = () =>
 {
     return (
         <>
+
+    <title>Home Page</title>
+
     <div className="header">
       <div className="left-section">
         <a href="/" className="header-link">
