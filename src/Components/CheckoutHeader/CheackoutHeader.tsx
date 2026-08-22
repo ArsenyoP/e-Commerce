@@ -1,4 +1,4 @@
-import type { HeaderProps } from "../../Components/Header/Header";
+import type { HeaderProps } from "../Header/Header";
 
 const CheckoutHeader = ({quantity}: HeaderProps) => {
     return (

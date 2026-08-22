@@ -1,8 +1,8 @@
-import "../../Components/Header.css";
+import "../../Components/Header/Header.css";
 import type { CartQuantityProps } from "../../Interfaces/CartQuantityProps";
-import CheckoutHeader from "./CheackoutHeader";
+import CheckoutHeader from "../../Components/CheckoutHeader/CheackoutHeader";
 import "./CheckoutPage.css";
-import "./CheckoutPageHeader.css";
+import "../../Components/CheckoutHeader/CheckoutPageHeader.css";
 
 export const CheckoutPage = ({cartQuantity}: CartQuantityProps) => {
   return (

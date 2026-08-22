@@ -1,13 +1,15 @@
 import axios from "axios";
-import "../../Components/Header.css";
+import "../../Components/Header/Header.css";
 import "./HomePage.css";
 import { useEffect, useState } from "react";
-import type { CartItem } from "../../Interfaces/CartInterface";
 import Header from "../../Components/Header/Header";
-export const HomePage = () => {
+import type { CartQuantityProps } from "../../Interfaces/CartQuantityProps";
+
+
+
+export const HomePage = ({cartQuantity}: CartQuantityProps) => {
   
   const [products, setProducts] = useState([])
-  const [cart, setCart] = useState([])
 
   useEffect(() => {
       axios.get("http://localhost:3000/api/products")
@@ -15,12 +17,6 @@ export const HomePage = () => {
       {
         setProducts(response.data)
       });
-
-      axios.get<CartItem[]>("http://localhost:3000/api/cart-items")
-      .then( (resonse) => {
-        setCart(resonse.data)
-        console.log(resonse.data)
-      } )
   }, [])
   
 
@@ -28,7 +24,7 @@ export const HomePage = () => {
     <>
       <title>Home Page</title>
 
-      <Header quantity={cart.length}/>
+      <Header quantity={cartQuantity}/>
       <div className="home-page">
         <div className="products-grid">
           {products.map((product) => {
