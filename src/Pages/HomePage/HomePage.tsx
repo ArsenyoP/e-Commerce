@@ -2,17 +2,25 @@ import axios from "axios";
 import "../../Components/Header.css";
 import "./HomePage.css";
 import { useEffect, useState } from "react";
-
+import type { CartItem } from "../../Interfaces/CartInterface";
+import Header from "../../Components/Header/Header";
 export const HomePage = () => {
   
   const [products, setProducts] = useState([])
+  const [cart, setCart] = useState([])
 
   useEffect(() => {
       axios.get("http://localhost:3000/api/products")
       .then( (response) =>
       {
         setProducts(response.data)
-      })
+      });
+
+      axios.get<CartItem[]>("http://localhost:3000/api/cart-items")
+      .then( (resonse) => {
+        setCart(resonse.data)
+        console.log(resonse.data)
+      } )
   }, [])
   
 
@@ -20,35 +28,7 @@ export const HomePage = () => {
     <>
       <title>Home Page</title>
 
-      <div className="header">
-        <div className="left-section">
-          <a href="/" className="header-link">
-            <img className="logo" src="images/logo-white.png" />
-            <img className="mobile-logo" src="images/mobile-logo-white.png" />
-          </a>
-        </div>
-
-        <div className="middle-section">
-          <input className="search-bar" type="text" placeholder="Search" />
-
-          <button className="search-button">
-            <img className="search-icon" src="images/icons/search-icon.png" />
-          </button>
-        </div>
-
-        <div className="right-section">
-          <a className="orders-link header-link" href="/orders">
-            <span className="orders-text">Orders</span>
-          </a>
-
-          <a className="cart-link header-link" href="/checkout">
-            <img className="cart-icon" src="images/icons/cart-icon.png" />
-            <div className="cart-quantity">3</div>
-            <div className="cart-text">Cart</div>
-          </a>
-        </div>
-      </div>
-
+      <Header quantity={cart.length}/>
       <div className="home-page">
         <div className="products-grid">
           {products.map((product) => {
