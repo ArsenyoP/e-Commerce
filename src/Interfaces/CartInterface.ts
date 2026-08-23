@@ -6,3 +6,8 @@ export interface CartItem {
     createdAt: string;
     updatedAt: string;
   }
+
+
+export interface CartInterface{
+  Items: CartItem[]
+}
