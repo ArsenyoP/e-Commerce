@@ -6,19 +6,25 @@ import { useEffect, useState } from "react";
 import type { CartExpanded } from "../../Interfaces/CartInterface";
 import axios from "axios";
 import { formatMoney } from "../../utils/money";
+import type { DeliveryOptionInterface } from "../../Interfaces/DeliveryOptionsInterface";
 
 export const CheckoutPage = () => {
   const [cart, setCart] = useState<CartExpanded[]>([]);
+  const [deliveryOption, setDeliveryOption] = useState<DeliveryOptionInterface[]>([]);
 
   useEffect(() => {
     axios
-      .get<
-        CartExpanded[]
-      >("http://localhost:3000/api/cart-items?expand=product")
-      .then((response) => {
-        console.log("Response:", response.data);
-        setCart(response.data);
-      });
+      .get<CartExpanded[]>("http://localhost:3000/api/cart-items?expand=product")
+        .then((response) => {
+          console.log("Response:", response.data);
+          setCart(response.data);
+        });
+
+    axios.get<DeliveryOptionInterface[]>("http://localhost:3000/api/delivery-options?expand=estimatedDeliveryTime")
+        .then( (response) =>{
+          console.log("Delivery:",response.data)
+          setDeliveryOption(response.data)
+        } )
   }, []);
 
   let cartQuantity: number = 0;
@@ -68,6 +74,7 @@ export const CheckoutPage = () => {
                       </span>
                     </div>
                   </div>
+
 
                   <div className="delivery-options">
                     <div className="delivery-options-title">
