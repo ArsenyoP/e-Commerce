@@ -1,16 +1,15 @@
 import "../../Components/Header/Header.css";
-import type { CartQuantityProps } from "../../Interfaces/CartQuantityProps";
 import CheckoutHeader from "../../Components/CheckoutHeader/CheackoutHeader";
 import "./CheckoutPage.css";
 import "../../Components/CheckoutHeader/CheckoutPageHeader.css";
 
-export const CheckoutPage = ({cartQuantity}: CartQuantityProps) => {
+export const CheckoutPage = () => {
   return (
     <>
       <title>Checkout</title>
 
       <body>
-        <CheckoutHeader quantity={cartQuantity}/>
+        <CheckoutHeader quantity={ 3 }/>
 
         <div className="checkout-page">
           <div className="page-title">Review your order</div>
