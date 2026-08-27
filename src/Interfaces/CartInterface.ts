@@ -9,9 +9,14 @@ export interface CartItem {
     updatedAt: string;
   }
 
-export interface CartExpanded{
-  cartItem: CartItem;
-  products: ProductInterface[]
+export interface CartExpanded {
+  id: number;
+  productId: string;
+  quantity: number;
+  deliveryOptionId: string;
+  createdAt: string;
+  updatedAt: string;
+  product: ProductInterface;
 }
 
 export interface CartInterface{
