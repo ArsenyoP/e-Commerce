@@ -40,7 +40,7 @@ export const CheckoutPage = () => {
           <div className="checkout-grid">
             <div className="order-summary">
               {cart.map((cart) => {
-                return <div className="cart-item-container">
+                return <div key={cart.id} className="cart-item-container">
                 <div className="delivery-date">
                   Delivery date: Tuesday, June 21
                 </div>
