@@ -13,31 +13,34 @@ import { PaymentSummaryComponent } from "../../Components/CheckoutPage/PaymentSu
 export const CheckoutPage = () => {
   const [cart, setCart] = useState<CartExpanded[]>([]);
   const [deliveryOption, setDeliveryOption] = useState<DeliveryOptionInterface[]>([]);
-  const [paymentSummary, setPaymentSummary] = useState<OrderSummaryInterface>(null)
+  const [paymentSummary, setPaymentSummary] = useState<OrderSummaryInterface>(null);
 
   useEffect(() => {
-    axios
-      .get<
-        CartExpanded[]
-      >("http://localhost:3000/api/cart-items?expand=product")
-      .then((response) => {
-        console.log("Response:", response.data);
-        setCart(response.data);
-      });
+    const fetchCart = async () =>{
+      let fetchCartresponse = await axios.get<CartExpanded[]>
+        ("http://localhost:3000/api/cart-items?expand=product");
 
-    axios
-      .get<
-        DeliveryOptionInterface[]
-      >("http://localhost:3000/api/delivery-options?expand=estimatedDeliveryTime")
-      .then((response) => {
-        console.log("Delivery:", response.data);
-        setDeliveryOption(response.data);
-      });
+      setCart(fetchCartresponse.data);
+    }
+    
+    const fetchOptions = async () => {
+      let fetchOptionsRespone = await axios.get<DeliveryOptionInterface[]>
+       ("http://localhost:3000/api/delivery-options?expand=estimatedDeliveryTime")
 
-    axios.get<OrderSummaryInterface>("http://localhost:3000/api/payment-summary")
-      .then( (response) => {
-        setPaymentSummary(response.data)
-      } ) 
+       setDeliveryOption(fetchOptionsRespone.data);
+    }
+    
+    const fetchSummary = async () => {
+      let fetchSummaryRespone = await axios.get<OrderSummaryInterface>
+       ("http://localhost:3000/api/payment-summary")
+
+       setPaymentSummary(fetchSummaryRespone.data);
+    }
+
+
+      fetchCart();
+      fetchOptions();
+      fetchSummary();
   }, []);
 
   let cartQuantity: number = 0;
