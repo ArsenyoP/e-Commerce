@@ -13,11 +13,13 @@ function App() {
   const [cart, setCart] = useState<CartItem[]>([])
 
   useEffect( () => {
-    axios.get<CartItem[]>("http://localhost:3000/api/cart-items")
-      .then( (resonse) => {
-        setCart(resonse.data)
-        console.log(resonse.data)
-      } )
+    const fetchCart = async () => {
+      let fetchCartResponse = await axios.get<CartItem[]>
+        ("http://localhost:3000/api/cart-items")
+      setCart(fetchCartResponse.data);
+    }
+    
+    fetchCart();
   }, [])
 
   let cartQuantity = 0; 
