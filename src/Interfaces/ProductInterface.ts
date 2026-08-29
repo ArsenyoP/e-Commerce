@@ -4,7 +4,9 @@ export interface ProductInterface{
     name: string;
     rating: RatingInterface;
     priceCents: number;
-    keywords: string[]
+    keywords: string[];
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 
