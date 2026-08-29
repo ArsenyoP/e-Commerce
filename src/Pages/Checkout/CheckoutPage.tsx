@@ -139,7 +139,8 @@ export const CheckoutPage = () => {
             </div>
 
             {/* Summary grid */}
-            <div className="payment-summary">
+            {paymentSummary && (
+              <div className="payment-summary">
               <div className="payment-summary-title">Payment Summary</div>
 
               <div className="payment-summary-row">
@@ -181,6 +182,7 @@ export const CheckoutPage = () => {
                 Place your order
               </button>
             </div>
+            )}
           </div>
         </div>
       </body>
