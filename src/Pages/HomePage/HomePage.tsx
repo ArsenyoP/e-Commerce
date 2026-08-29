@@ -13,11 +13,14 @@ export const HomePage = ({cartQuantity}: CartQuantityProps) => {
   const [products, setProducts] = useState<ProductInterface[]>([])
 
   useEffect(() => {
-      axios.get<ProductInterface[]>("http://localhost:3000/api/products")
-      .then( (response) =>
-      {
-        setProducts(response.data)
-      });
+    const fetchProducts = async () => {
+      let fetchProductsResponse = await axios.get<ProductInterface[]>
+        ("http://localhost:3000/api/products")
+
+        setProducts(fetchProductsResponse.data);
+    }
+    
+    fetchProducts()
   }, [])
   
 
