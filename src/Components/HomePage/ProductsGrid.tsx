@@ -1,10 +1,12 @@
 import type { ProductInterface } from "../../Interfaces/ProductInterface";
+import axios from "axios";
 
 interface ProductsGridProps{
     products: ProductInterface[]
+    fetchCart: () => Promise<void>
 }
 
-export const ProductsGrid = ({products}: ProductsGridProps) =>{
+export const ProductsGrid = ({products, fetchCart}: ProductsGridProps) =>{
     return <>
         <div className="products-grid">
           {products.map((product) => {
@@ -54,8 +56,13 @@ export const ProductsGrid = ({products}: ProductsGridProps) =>{
                 </div>
 
                 <button className="add-to-cart-button button-primary"
-                  onClick={() => {
-                    
+                  onClick={async () => {
+                    try {
+                      await axios.post('http://localhost:3000/api/cart-items', { productId: product.id, quantity: 1 });
+                      await fetchCart();
+                    } catch (error) {
+                      console.error('Error adding to cart:', error);
+                    }
                   }}>
                   Add to Cart
                 </button>

@@ -12,25 +12,25 @@ function App() {
 
   const [cart, setCart] = useState<CartItem[]>([])
 
+  const fetchCart = async () => {
+    let fetchCartResponse = await axios.get<CartItem[]>
+      ("http://localhost:3000/api/cart-items")
+    setCart(fetchCartResponse.data);
+  }
+
   useEffect( () => {
-    const fetchCart = async () => {
-      let fetchCartResponse = await axios.get<CartItem[]>
-        ("http://localhost:3000/api/cart-items")
-      setCart(fetchCartResponse.data);
-    }
-    
     fetchCart();
   }, [])
 
-  let cartQuantity = 0; 
-  
+  let cartQuantity = 0;
+
   cart.forEach( (cartItem: CartItem) => {
     cartQuantity += cartItem.quantity
   });
 
   return (
     <Routes>
-      <Route path='' element={<HomePage cartQuantity={cartQuantity}/>}></Route>
+      <Route path='' element={<HomePage cartQuantity={cartQuantity} fetchCart={fetchCart}/>}></Route>
       <Route path='/checkout' element={<CheckoutPage/>}></Route>
       <Route path='/orders' element={<OrdersPage cartQuantity={cartQuantity}/>}></Route>
       <Route path='/tracking' element={<TrackingPage cartQuantity={cartQuantity}/>}></Route>

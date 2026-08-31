@@ -8,7 +8,7 @@ import type { ProductInterface } from "../../Interfaces/ProductInterface";
 import { ProductsGrid } from "../../Components/HomePage/ProductsGrid";
 
 
-export const HomePage = ({cartQuantity}: CartQuantityProps) => {
+export const HomePage = ({cartQuantity, fetchCart}: CartQuantityProps & { fetchCart: () => Promise<void> }) => {
   
   const [products, setProducts] = useState<ProductInterface[]>([])
 
@@ -31,7 +31,7 @@ export const HomePage = ({cartQuantity}: CartQuantityProps) => {
       <Header quantity={cartQuantity}/>
       <div className="home-page">
 
-      <ProductsGrid products={products}/>
+      <ProductsGrid products={products} fetchCart={fetchCart}/>
         
       </div>
     </>
