@@ -1,4 +1,4 @@
-import type { ProductInterface } from "../../Interfaces/ProductInterface";
+import type { ProductInterface } from "../../../Interfaces/ProductInterface";
 import axios from "axios";
 import React from "react";
 import { formatMoney } from "../../utils/money";
@@ -10,6 +10,7 @@ interface ProductProps {
 
 export const Product = ({ product, fetchCart }: ProductProps) => {
   const [quantity, setQuantity] = React.useState(1);
+  const [addedNotification, setAddedNotification] = React.useState(false);
 
   const handleAddToCart = async () => {
     try {
@@ -18,6 +19,8 @@ export const Product = ({ product, fetchCart }: ProductProps) => {
         quantity
       });
       await fetchCart();
+      setAddedNotification(true);
+      setTimeout(() => setAddedNotification(false), 2000);
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
@@ -66,8 +69,19 @@ export const Product = ({ product, fetchCart }: ProductProps) => {
 
       <div className="product-spacer"></div>
 
-      <div className="added-to-cart">
-        <img src="images/icons/checkmark.png" />
+      <div className="added-to-cart"
+        style={{
+          opacity: addedNotification ? 1 : 0,
+          transition: 'opacity 0.3s ease-in-out',
+          color: 'green',
+          fontWeight: 'bold',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px',
+          pointerEvents: 'none'
+        }}
+      >
+        <img src="images/icons/checkmark.png" alt="Added" />
         Added
       </div>
 
