@@ -1,6 +1,7 @@
-import type { ProductInterface } from "../../../Interfaces/ProductInterface";
+import type { ProductInterface } from "../../Interfaces/ProductInterface";
 import axios from "axios";
 import React from "react";
+import { formatMoney } from "../../utils/money";
 
 interface ProductProps {
   product: ProductInterface;
@@ -43,7 +44,7 @@ export const Product = ({ product, fetchCart }: ProductProps) => {
         <div className="product-rating-count link-primary">87</div>
       </div>
 
-      <div className="product-price">{(product.priceCents / 100).toFixed(2)}$</div>
+      <div className="product-price">{formatMoney(product.priceCents)}</div>
 
       <div className="product-quantity-container">
         <select
