@@ -15,34 +15,36 @@ export const CheckoutPage = () => {
   const [deliveryOption, setDeliveryOption] = useState<DeliveryOptionInterface[]>([]);
   const [paymentSummary, setPaymentSummary] = useState<OrderSummaryInterface>(null);
 
+
+  const fetchCart = async () =>{
+    let fetchCartresponse = await axios.get<CartExpanded[]>
+      ("http://localhost:3000/api/cart-items?expand=product");
+
+    setCart(fetchCartresponse.data);
+  }
+  
+  const fetchOptions = async () => {
+    let fetchOptionsRespone = await axios.get<DeliveryOptionInterface[]>
+     ("http://localhost:3000/api/delivery-options?expand=estimatedDeliveryTime")
+
+     setDeliveryOption(fetchOptionsRespone.data);
+  }
+  
+  const fetchSummary = async () => {
+    let fetchSummaryRespone = await axios.get<OrderSummaryInterface>
+     ("http://localhost:3000/api/payment-summary")
+
+     setPaymentSummary(fetchSummaryRespone.data);
+  }
+
   useEffect(() => {
-    const fetchCart = async () =>{
-      let fetchCartresponse = await axios.get<CartExpanded[]>
-        ("http://localhost:3000/api/cart-items?expand=product");
-
-      setCart(fetchCartresponse.data);
-    }
-    
-    const fetchOptions = async () => {
-      let fetchOptionsRespone = await axios.get<DeliveryOptionInterface[]>
-       ("http://localhost:3000/api/delivery-options?expand=estimatedDeliveryTime")
-
-       setDeliveryOption(fetchOptionsRespone.data);
-    }
-    
-    const fetchSummary = async () => {
-      let fetchSummaryRespone = await axios.get<OrderSummaryInterface>
-       ("http://localhost:3000/api/payment-summary")
-
-       setPaymentSummary(fetchSummaryRespone.data);
-    }
-
-
       fetchCart();
       fetchOptions();
       fetchSummary();
   }, []);
 
+
+  
   let cartQuantity: number = 0;
 
   cart.forEach((cartItem: CartExpanded) => {
@@ -63,6 +65,8 @@ export const CheckoutPage = () => {
             <OrderSummaryComponent
               cart={cart}
               deliveryOption={deliveryOption}
+              fetchCartFunction={fetchCart}
+              fetchSummary={fetchSummary}
             />
 
             {paymentSummary && (

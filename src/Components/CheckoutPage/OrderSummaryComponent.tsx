@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { CartExpanded } from "../../Interfaces/CartInterface";
 import type { DeliveryOptionInterface } from "../../Interfaces/DeliveryOptionsInterface";
 import { formatMoney } from "../../utils/money";
@@ -6,13 +7,18 @@ import dayjs from "dayjs";
 interface OrderSummaryComponentProps {
   cart: CartExpanded[];
   deliveryOption: DeliveryOptionInterface[];
+  fetchCartFunction: () => Promise<void>;
+  fetchSummary: () => Promise<void>
 }
 
 export const OrderSummaryComponent = ({
   cart,
   deliveryOption,
+  fetchCartFunction,
+  fetchSummary
 }: OrderSummaryComponentProps) => {
-  let deliveryPrice = "Free Shiping";
+
+  
 
   return (
     <div className="order-summary">
@@ -20,6 +26,8 @@ export const OrderSummaryComponent = ({
         const selectedDeliveryOption = deliveryOption.find((option) => {
           return option.id === cartItem.deliveryOptionId;
         });
+
+        let deliveryPrice = "Free Shiping";
 
         return (
           <div key={cartItem.id} className="cart-item-container">
@@ -55,13 +63,21 @@ export const OrderSummaryComponent = ({
                 <div className="delivery-options-title">
                   Choose a delivery option:
                 </div>
-                {deliveryOption.map((option: DeliveryOptionInterface) => {
+                {deliveryOption.map((option) => {
                   if (option.priceCents !== 0) {
                     deliveryPrice = formatMoney(option.priceCents);
                   }
 
+                  const updateQuantity = async () => {
+                    await axios.put(`http://localhost:3000/api/cart-items/${cartItem.productId}`,
+                      { deliveryOptionId: option.id});
+                      await fetchCartFunction();
+                      await fetchSummary();
+                  }
+
                   return (
-                    <div className="delivery-option" key={option.id}>
+                    <div className="delivery-option" key={option.id}
+                      onClick={updateQuantity}>
                       <input
                         type="radio"
                         checked={option.id === cartItem.deliveryOptionId}
@@ -80,6 +96,8 @@ export const OrderSummaryComponent = ({
                       </div>
                     </div>
                   );
+
+
                 })}
               </div>
             </div>
