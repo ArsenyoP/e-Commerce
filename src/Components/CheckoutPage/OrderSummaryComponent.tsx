@@ -29,6 +29,16 @@ export const OrderSummaryComponent = ({
 
         let deliveryPrice = "Free Shiping";
 
+        const handleDelete = async () => {
+          try {
+            await axios.delete(`http://localhost:3000/api/cart-items/${cartItem.productId}`);
+            await fetchCartFunction();
+            await fetchSummary();
+          } catch (error) {
+            console.error('Error deleting item:', error);
+          }
+        };
+
         return (
           <div key={cartItem.id} className="cart-item-container">
             <div className="delivery-date">
@@ -53,7 +63,7 @@ export const OrderSummaryComponent = ({
                   <span className="update-quantity-link link-primary">
                     Update
                   </span>
-                  <span className="delete-quantity-link link-primary">
+                  <span className="delete-quantity-link link-primary" onClick={handleDelete}>
                     Delete
                   </span>
                 </div>
@@ -81,6 +91,7 @@ export const OrderSummaryComponent = ({
                       <input
                         type="radio"
                         checked={option.id === cartItem.deliveryOptionId}
+                        onChange={() => {}}
                         className="delivery-option-input"
                         name={`delivery-option-${cartItem.product.id}`}
                       />
