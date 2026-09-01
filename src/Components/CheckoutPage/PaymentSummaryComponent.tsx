@@ -1,13 +1,35 @@
+import axios from "axios";
 import type { OrderSummaryInterface } from "../../Interfaces/CheckoutInterfaces";
 import { formatMoney } from "../../utils/money";
+import { useNavigate } from "react-router-dom";
 
 interface PaymentSummaryComponentProps {
   paymentSummary: OrderSummaryInterface;
+  fetchCartFunction: () => Promise<void>;
+  fetchSummary: () => Promise<void>;
 }
+
 
 export const PaymentSummaryComponent = ({
   paymentSummary,
+  fetchCartFunction,
+  fetchSummary,
 }: PaymentSummaryComponentProps) => {
+
+  const navigate = useNavigate();
+
+  const handlePlaceOrder = async () => {
+    try {
+      await axios.post("http://localhost:3000/api/orders");
+      await fetchCartFunction();
+      await fetchSummary();
+
+      navigate("/orders")
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
+  };
+
   return (
     <div className="payment-summary">
       <div className="payment-summary-title">Payment Summary</div>
@@ -20,7 +42,7 @@ export const PaymentSummaryComponent = ({
       </div>
 
       <div className="payment-summary-row">
-        <div>Shipping &amp; handling:</div>
+        <div>Shipping & handling:</div>
         <div className="payment-summary-money">
           {formatMoney(paymentSummary.shippingCostCents)}
         </div>
@@ -47,7 +69,7 @@ export const PaymentSummaryComponent = ({
         </div>
       </div>
 
-      <button className="place-order-button button-primary">
+      <button className="place-order-button button-primary" onClick={handlePlaceOrder}>
         Place your order
       </button>
     </div>

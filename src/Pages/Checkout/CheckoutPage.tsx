@@ -70,7 +70,11 @@ export const CheckoutPage = () => {
             />
 
             {paymentSummary && (
-              <PaymentSummaryComponent paymentSummary={paymentSummary} />
+              <PaymentSummaryComponent
+                paymentSummary={paymentSummary}
+                fetchCartFunction={fetchCart}
+                fetchSummary={fetchSummary}
+              />
             )}
           </div>
         </div>
