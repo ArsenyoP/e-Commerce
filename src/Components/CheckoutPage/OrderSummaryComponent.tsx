@@ -3,6 +3,7 @@ import type { CartExpanded } from "../../Interfaces/CartInterface";
 import type { DeliveryOptionInterface } from "../../Interfaces/DeliveryOptionsInterface";
 import { formatMoney } from "../../utils/money";
 import dayjs from "dayjs";
+import { formatDate } from "../../utils/dateTime";
 
 interface OrderSummaryComponentProps {
   cart: CartExpanded[];
@@ -42,9 +43,7 @@ export const OrderSummaryComponent = ({
         return (
           <div key={cartItem.id} className="cart-item-container">
             <div className="delivery-date">
-              {`Shiping date: ${dayjs(
-                selectedDeliveryOption.estimatedDeliveryTimeMs,
-              ).format("dddd, MMMM, D")}`}
+              {`Shiping date: ${formatDate(selectedDeliveryOption.estimatedDeliveryTimeMs)}`}
             </div>
 
             <div className="cart-item-details-grid">
